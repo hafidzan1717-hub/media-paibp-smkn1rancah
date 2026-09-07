@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multimedia PAIBP Kelas XI - SMK Negeri 1 Rancah</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pinky: {
+                            50: '#fdf2f8',
+                            100: '#fce7f3',
+                            200: '#fbcfe8',
+                            300: '#f9a8d4',
+                            400: '#f472b6',
+                            500: '#ec4899',
+                            600: '#db2777',
+                            700: '#be185d',
+                            800: '#9d174d',
+                            900: '#831843',
+                            950: '#500724',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #fff5f7;
+            color: #1e293b;
+        }
+
+        .arabic-text {
+            font-family: 'Amiri', serif;
+            font-size: 1.65rem;
+            line-height: 2.6;
+            direction: rtl;
+            text-align: right;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .materi-content {
+            display: none;
+        }
+
+        .materi-content.active {
+            display: block;
+            animation: slideUpFade 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideUpFade {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .sidebar-item {
+            transition: all 0.2s ease-in-out;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar-item:hover {
+            background-color: #fce7f3;
+            color: #be185d;
+        }
+
+        .sidebar-item.active {
+            background-color: #fbcfe8;
+            color: #9d174d;
+            font-weight: 600;
+            border-left-color: #db2777;
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #printable-area, #printable-area *, #printable-modul, #printable-modul * {
+                visibility: visible;
+            }
+            #printable-area, #printable-modul {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                background: white;
+                padding: 20px;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fdf2f8;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #f9a8d4;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #f472b6;
+        }
+    </style>
+</head>
+<body class="flex flex-col h-screen overflow-hidden bg-pink-50/40">
+
+    <header class="bg-gradient-to-r from-pinky-800 via-pinky-700 to-rose-700 text-white shadow-lg z-30 flex-shrink-0 border-b border-pinky-600/30">
+        <div class="px-4 py-2.5 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <button id="mobile-menu-btn" class="md:hidden text-white p-2 rounded-lg hover:bg-pinky-600 focus:outline-none">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30 shadow-inner">
+                        <i class="fas fa-heart-quran text-pink-100 text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-base md:text-lg leading-tight tracking-wide text-pink-50">PAIBP KELAS XI</h1>
+                        <p class="text-xs text-pink-200">SMK Negeri 1 Rancah</p>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="hidden lg:flex items-center gap-1 bg-pinky-900/40 p-1 rounded-xl border border-pinky-500/30 text-xs">
+                <button onclick="switchTab('materi')" id="nav-tab-materi" class="px-3 py-1.5 rounded-lg font-medium transition-all bg-pinky-600 text-white shadow-sm flex items-center gap-1.5">
+                    <i class="fas fa-book-open"></i> Materi & Resume
+                </button>
+                <button onclick="switchTab('evaluasi')" id="nav-tab-evaluasi" class="px-3 py-1.5 rounded-lg font-medium transition-all hover:bg-pinky-600/50 text-pink-100 flex items-center gap-1.5">
+                    <i class="fas fa-tasks"></i> Kuis & Evaluasi
+                </button>
+                <button onclick="switchTab('refleksi')" id="nav-tab-refleksi" class="px-3 py-1.5 rounded-lg font-medium transition-all hover:bg-pinky-600/50 text-pink-100 flex items-center gap-1.5">
+                    <i class="fas fa-heart"></i> Refleksi Siswa
+                </button>
+                <button onclick="switchTab('modul')" id="nav-tab-modul" class="px-3 py-1.5 rounded-lg font-medium transition-all hover:bg-pinky-600/50 text-pink-100 flex items-center gap-1.5">
+                    <i class="fas fa-file-invoice"></i> Modul Ajar
+                </button>
+                <button onclick="switchTab('nilai')" id="nav-tab-nilai" class="px-3 py-1.5 rounded-lg font-medium transition-all hover:bg-pinky-600/50 text-pink-100 flex items-center gap-1.5">
+                    <i class="fas fa-award"></i> Daftar Nilai
+                </button>
+                <button onclick="switchTab('guru')" id="nav-tab-guru" class="px-3 py-1.5 rounded-lg font-medium transition-all hover:bg-pinky-600/50 text-pink-100 flex items-center gap-1.5">
+                    <i class="fas fa-user-graduate"></i> Identitas Guru
+                </button>
+            </nav>
+
+            <div class="flex items-center gap-3">
+                <button onclick="showStudentModal()" class="flex items-center gap-2 bg-pinky-900/60 hover:bg-pinky-900 px-3 py-1.5 rounded-lg border border-pinky-400/40 text-xs transition-colors shadow-sm">
+                    <i class="fas fa-user-circle text-pink-200 text-sm"></i>
+                    <div class="text-left hidden sm:block">
+                        <div class="text-[10px] text-pink-200 leading-none">Siswa</div>
+                        <div id="header-student-name" class="font-bold text-white text-xs truncate max-w-[120px]">Belum Diisi</div>
+                    </div>
+                </button>
+
+                <div class="hidden sm:flex flex-col text-right">
+                    <div class="text-[10px] text-pink-200 uppercase tracking-wider">Progress Pembelajaran</div>
+                    <div id="progress-percent" class="text-xs font-bold text-pink-100">0% Selesai</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex lg:hidden overflow-x-auto bg-pinky-900/80 px-2 py-1.5 border-t border-pinky-600/40 text-xs gap-1">
+            <button onclick="switchTab('materi')" class="whitespace-nowrap px-3 py-1 rounded-md text-white hover:bg-pinky-700">Materi</button>
+            <button onclick="switchTab('evaluasi')" class="whitespace-nowrap px-3 py-1 rounded-md text-pink-100 hover:bg-pinky-700">Kuis & Evaluasi</button>
+            <button onclick="switchTab('refleksi')" class="whitespace-nowrap px-3 py-1 rounded-md text-pink-100 hover:bg-pinky-700">Refleksi</button>
+            <button onclick="switchTab('modul')" class="whitespace-nowrap px-3 py-1 rounded-md text-pink-100 hover:bg-pinky-700">Modul Ajar</button>
+            <button onclick="switchTab('nilai')" class="whitespace-nowrap px-3 py-1 rounded-md text-pink-100 hover:bg-pinky-700">Daftar Nilai</button>
+            <button onclick="switchTab('guru')" class="whitespace-nowrap px-3 py-1 rounded-md text-pink-100 hover:bg-pinky-700">Guru</button>
+        </div>
+    </header>
+
+    <div class="flex flex-1 overflow-hidden relative">
+
+        <aside id="sidebar" class="absolute md:relative z-20 w-72 h-full bg-white/90 backdrop-blur-sm border-r border-pink-100 shadow-xl md:shadow-none transition-transform duration-300 -translate-x-full md:translate-x-0 flex flex-col flex-shrink-0">
+            
+            <div class="p-3 border-b border-pink-100 bg-pink-50/50">
+                <div class="relative">
+                    <i class="fas fa-search absolute left-3 top-2.5 text-pink-400 text-xs"></i>
+                    <input type="text" id="search-input" onkeyup="filterMenu()" placeholder="Cari materi bab..." class="w-full pl-8 pr-3 py-1.5 bg-white text-xs border border-pink-200 rounded-lg focus:outline-none focus:border-pinky-500 focus:ring-1 focus:ring-pinky-500">
+                </div>
+            </div>
+
+            <div class="flex-1 overflow-y-auto p-2 space-y-4" id="sidebar-menu">
+                
+                <div>
+                    <div class="px-3 py-1.5 text-[11px] font-bold text-pinky-800 uppercase tracking-wider flex items-center justify-between bg-pink-50/80 rounded-md">
+                        <span><i class="fas fa-bookmark text-pinky-600 mr-1.5"></i>Semester 1</span>
+                        <span class="bg-pinky-200 text-pinky-900 text-[10px] px-1.5 py-0.5 rounded font-semibold">6 Bab</span>
+                    </div>
+                    <div class="mt-1 space-y-0.5">
+                        <a href="#" onclick="loadMateri('m1', this)" class="sidebar-item active flex items-start gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-700">
+                            <span class="w-5 h-5 rounded bg-pinky-100 text-pinky-700 font-bold text-[10px] flex items-center justify-center flex-shrink-0 mt-0.5">1</span>
+                            <span class="line-clamp-2">QS Ali Imran 190-191 & Berpikir Kritis</span>
+                        </a>
+                        <a href="#" onclick="loadMateri('m2', this)" class="sidebar-item flex items-start gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-700">
+                            <span class="w-5 h-5 rounded bg-slate-100 text-slate-600 font-bold text-[10px] flex items-center justify-center flex-shrink-0 mt-0.5">2</span>
+                            <span class="line-clamp-2">QS Ar-Rahman 33 & IPTEK</span>
+                        </a>
+                        <a href="#" onclick="loadMateri('m3', this)" class="sidebar-item flex items-start gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-700">
+                            <span class="w-5 h-5 rounded bg-slate-100 text-slate-600 font-bold text-[10px] flex items-center justify-center flex-shrink-0 mt-0.5">3</span>
+                            <span class="line-clamp-2">Cabang Iman: Janji, Nikmat, Lisan, Aib</span>
+                        </a>
+                        <a href="#" onclick="loadMateri('m4', this)" class="sidebar-item flex items-start gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-700">
+                            <span class="w-5 h-5 rounded bg-slate-100 text-slate-600 font-bold text-[10px] flex items-center justify-center flex-shrink-0 mt-0.5">4</span>
+                            <span class="line-clamp-2">Menghindari Akhlak Madzmumah</span>
+                        </a>
+                        <a href="#" onclick="loadMateri('m5', this)" class="sidebar-item flex items-start gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-700">
+                            <span class="w-5 h-5 rounded bg-slate-100 text-slate-600 font-bold text-[10px] flex items-center justify-center flex-shrink-0 mt-0.5">5</span>
+                            <span class="line-clamp-2">Khutbah, Tabligh, dan Dakwah</span>
+                        </a>
+                        <a href="#" onclick="loadMateri('m6', this)" class="sidebar-item flex items-start gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-700">
+                            <span class="w-5 h-5 rounded bg-slate-100 text-slate-600 font-bold text-[10px] flex items-center justify-center flex-shrink-0 mt-0.5">6</span>
+                            <span class="line-clamp-2">Peran Tokoh Ulama di Indonesia</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="px-3 py-1.5 text-[11px] font-bold text-rose-800 uppercase tracking-wider flex items-center justify-between bg-rose-50/80 rounded-md">
+                        <span><i class="fas fa-bookmark text-rose-500 mr-1.5"></i>Semester 2</span>
+                        <span class="bg-rose-200 text-rose-900 text-[10px] px-1.5 py-0.5 rounded font-semibold">6 Bab</span>
+                    </div>
+                    <div class="mt-1 space-y-0.5">
+                        <a href="#" onclick="loadMateri('m7', this)" class="sidebar-item flex items-start gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-700">
+                            <span class="w-5 h-5 rounded bg-slate-100 text-slate-600 font-bold text-[10px] flex items-center justify-center flex-shrink-0 mt-0.5">7</span>
+                            <span class="line-clamp-2">QS Yunus 40-41 & Toleransi</span>
+                        </a>
+                        <a href="#" onclick="loadMateri('m8', this)" class="sidebar-item flex items-start gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-700">
+                            <span class="w-5 h-5 rounded bg-slate-100 text-slate-600 font-bold text-[10px] flex items-center justify-center flex-shrink-0 mt-0.5">8</span>
+                            <span class="line-clamp-2">QS Al-Maidah 32 & Memelihara Kehidupan</span>
+                        </a>
+                        <a href="#" onclick="loadMateri('m9', this)" class="sidebar-item flex items-start gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-700">
+                            <span class="w-5 h-5 rounded bg-slate-100 text-slate-600 font-bold text-[10px] flex items-center justify-center flex-shrink-0 mt-0.5">9</span>
+                            <span class="line-clamp-2">Cabang Iman: Kehormatan, Ikhlas, Malu, Zuhud</span>
+                        </a>
+                        <a href="#" onclick="loadMateri('m10', this)" class="sidebar-item flex items-start gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-700">
+                            <span class="w-5 h-5 rounded bg-slate-100 text-slate-600 font-bold text-[10px] flex items-center justify-center flex-shrink-0 mt-0.5">10</span>
+                            <span class="line-clamp-2">Adab Menggunakan Media Sosial</span>
+                        </a>
+                        <a href="#" onclick="loadMateri('m11', this)" class="sidebar-item flex items-start gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-700">
+                            <span class="w-5 h-5 rounded bg-slate-100 text-slate-600 font-bold text-[10px] flex items-center justify-center flex-shrink-0 mt-0.5">11</span>
+                            <span class="line-clamp-2">Pernikahan dalam Islam</span>
+                        </a>
+                        <a href="#" onclick="loadMateri('m12', this)" class="sidebar-item flex items-start gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-700">
+                            <span class="w-5 h-5 rounded bg-slate-100 text-slate-600 font-bold text-[10px] flex items-center justify-center flex-shrink-0 mt-0.5">12</span>
+                            <span class="line-clamp-2">Peradaban Islam Masa Modern</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="p-3 border-t border-pink-100 bg-pink-50/60 text-center">
+                <p class="text-[11px] font-bold text-pinky-900">SMK NEGERI 1 RANCAH</p>
+                <p class="text-[10px] text-pinky-700">PAIBP Kelas XI • Asri Nur Hikmayanti</p>
+            </div>
+        </aside>
+
+        <main class="flex-1 overflow-y-auto p-4 md:p-6 bg-pink-50/20" id="main-view">
+            
+            <div class="max-w-4xl mx-auto space-y-6">
+
+                <div id="tab-materi" class="tab-content active">
+                    
+                    <div id="welcome-banner" class="bg-gradient-to-r from-pinky-800 via-pinky-700 to-rose-600 rounded-2xl p-6 text-white shadow-md relative overflow-hidden mb-6 border border-pinky-400/30">
+                        <div class="relative z-10 space-y-2">
+                            <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md border border-white/30 text-pink-100 px-3 py-1 rounded-full text-xs font-semibold">
+                                <i class="fas fa-school"></i> SMK NEGERI 1 RANCAH
+                            </div>
+                            <h2 class="text-xl md:text-2xl font-bold text-white">Multimedia Interaktif PAIBP Kelas XI</h2>
+                            <p class="text-pink-100 text-xs md:text-sm max-w-xl leading-relaxed">
+                                Pengampu: <strong>Asri Nur Hikmayanti, S.Pd., S.Pd.I., M.Pd</strong><br>
+                                Pelajari modul materi, resume ringkas, infografis visual, kerjakan evaluasi, dan lengkapi refleksi diri Anda.
+                            </p>
+                        </div>
+                        <div class="absolute -right-6 -bottom-10 opacity-15 pointer-events-none text-pink-200">
+                            <i class="fas fa-heart-quran text-[180px]"></i>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-2xl shadow-sm border border-pink-100 p-6 md:p-8">
+                        <div id="materi-dynamic-container"></div>
+                    </div>
+                </div>
+
+                <div id="tab-evaluasi" class="tab-content">
+                    <div class="bg-white rounded-2xl shadow-sm border border-pink-100 p-6">
+                        <div class="flex items-center justify-between pb-4 mb-6 border-b border-pink-100">
+                            <div>
+                                <h2 class="text-xl font-bold text-pinky-900 flex items-center gap-2">
+                                    <i class="fas fa-clipboard-check text-pinky-600"></i> Kuis & Evaluasi Interaktif
+                                </h2>
+                                <p class="text-xs text-slate-500">Pilih modul kuis untuk menguji tingkat pemahaman materi PAIBP Kelas XI.</p>
+                            </div>
+                        </div>
+
+                        <div id="quiz-selector" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div onclick="startQuiz('s1')" class="p-5 border border-pink-200 hover:border-pinky-500 rounded-xl bg-pink-50/40 hover:bg-pink-100/50 cursor-pointer transition-all shadow-xs">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-[10px] bg-pinky-200 text-pinky-900 px-2 py-0.5 rounded font-bold">Evaluasi</span>
+                                    <span id="badge-score-s1" class="text-xs font-bold text-pinky-700">Nilai: -</span>
+                                </div>
+                                <h3 class="font-bold text-sm text-slate-800">Evaluasi Semester 1</h3>
+                                <p class="text-xs text-slate-500 mt-1">5 Soal Pilihan Ganda (Bab 1 - 6)</p>
+                            </div>
+
+                            <div onclick="startQuiz('s2')" class="p-5 border border-pink-200 hover:border-rose-500 rounded-xl bg-rose-50/40 hover:bg-rose-100/50 cursor-pointer transition-all shadow-xs">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-[10px] bg-rose-200 text-rose-900 px-2 py-0.5 rounded font-bold">Evaluasi</span>
+                                    <span id="badge-score-s2" class="text-xs font-bold text-rose-700">Nilai: -</span>
+                                </div>
+                                <h3 class="font-bold text-sm text-slate-800">Evaluasi Semester 2</h3>
+                                <p class="text-xs text-slate-500 mt-1">5 Soal Pilihan Ganda (Bab 7 - 12)</p>
+                            </div>
+                        </div>
+
+                        <div id="active-quiz-box" class="hidden mt-6 pt-6 border-t border-pink-100">
+                            <div class="flex justify-between items-center mb-4">
+                                <span id="quiz-title-active" class="font-bold text-pinky-800 text-sm">Judul Kuis</span>
+                                <button onclick="closeQuiz()" class="text-xs text-rose-600 hover:underline"><i class="fas fa-times"></i> Tutup Kuis</button>
+                            </div>
+
+                            <div id="quiz-questions-list" class="space-y-6"></div>
+
+                            <div id="quiz-footer" class="mt-6 pt-4 border-t border-pink-100 flex justify-between items-center">
+                                <div id="quiz-result-summary" class="text-sm font-bold text-pinky-900"></div>
+                                <button onclick="submitQuiz()" class="bg-pinky-600 hover:bg-pinky-700 text-white text-xs px-5 py-2.5 rounded-xl font-bold transition-all shadow-sm">
+                                    <i class="fas fa-paper-plane mr-1"></i> Kirim Jawaban
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-refleksi" class="tab-content">
+                    <div class="bg-white rounded-2xl shadow-sm border border-pink-100 p-6 space-y-6">
+                        <div>
+                            <h2 class="text-xl font-bold text-pinky-900 flex items-center gap-2">
+                                <i class="fas fa-journal-whills text-pinky-600"></i> Jurnal Refleksi & Assessment Diri
+                            </h2>
+                            <p class="text-xs text-slate-500 mt-1">Tuliskan komitmen akhlak dan penilaian diri Anda setelah mempelajari bab materi.</p>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Pilih Bab Materi:</label>
+                                <select id="reflection-chapter-select" onchange="loadReflectionData()" class="w-full text-xs p-2.5 bg-pink-50/50 border border-pink-200 rounded-lg focus:outline-none focus:border-pinky-500">
+                                    <option value="1">Bab 1: QS Ali Imran 190-191 (Berpikir Kritis)</option>
+                                    <option value="2">Bab 2: QS Ar-Rahman 33 (Semangat IPTEK)</option>
+                                    <option value="3">Bab 3: Cabang Iman (Janji, Nikmat, Lisan, Aib)</option>
+                                    <option value="4">Bab 4: Menghindari Akhlak Madzmumah</option>
+                                    <option value="5">Bab 5: Khutbah, Tabligh, dan Dakwah</option>
+                                    <option value="6">Bab 6: Peran Ulama di Indonesia</option>
+                                    <option value="7">Bab 7: QS Yunus 40-41 (Toleransi)</option>
+                                    <option value="8">Bab 8: QS Al-Maidah 32 (Memelihara Kehidupan)</option>
+                                    <option value="9">Bab 9: Cabang Iman (Kehormatan, Ikhlas, Malu, Zuhud)</option>
+                                    <option value="10">Bab 10: Adab Media Sosial</option>
+                                    <option value="11">Bab 11: Pernikahan dalam Islam</option>
+                                    <option value="12">Bab 12: Peradaban Islam Modern</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Self Assessment (Skala Penilaian Diri):</label>
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                                    <label class="flex items-center gap-2 p-2 border border-pink-200 rounded-lg cursor-pointer hover:bg-pink-50">
+                                        <input type="radio" name="self_rating" value="Sangat Baik" checked class="accent-pinky-600"> Sangat Baik
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2 border border-pink-200 rounded-lg cursor-pointer hover:bg-pink-50">
+                                        <input type="radio" name="self_rating" value="Baik" class="accent-pinky-600"> Baik
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2 border border-pink-200 rounded-lg cursor-pointer hover:bg-pink-50">
+                                        <input type="radio" name="self_rating" value="Cukup" class="accent-pinky-600"> Cukup
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2 border border-pink-200 rounded-lg cursor-pointer hover:bg-pink-50">
+                                        <input type="radio" name="self_rating" value="Perlu Bimbingan" class="accent-pinky-600"> Perlu Bimbingan
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Catatan Refleksi & Rencana Aksi Nyata:</label>
+                                <textarea id="tab-reflection-text" rows="4" class="w-full text-xs p-3 border border-pink-200 rounded-xl focus:outline-none focus:border-pinky-500" placeholder="Tuliskan hikmah yang dipelajari dan komitmen penerapan perilaku dalam kehidupan sehari-hari..."></textarea>
+                            </div>
+
+                            <div class="flex justify-between items-center pt-2">
+                                <span id="reflection-toast" class="text-xs text-pinky-700 font-semibold hidden"><i class="fas fa-check-circle"></i> Refleksi berhasil disimpan!</span>
+                                <button onclick="saveTabReflection()" class="ml-auto bg-pinky-600 hover:bg-pinky-700 text-white text-xs px-5 py-2 rounded-xl font-bold transition-all shadow-sm">
+                                    <i class="fas fa-save mr-1"></i> Simpan Refleksi
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-modul" class="tab-content">
+                    <div class="bg-white rounded-2xl shadow-sm border border-pink-100 p-6 md:p-8 space-y-6">
+                        
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-pink-100 pb-4 gap-3 no-print">
+                            <div>
+                                <h2 class="text-xl font-bold text-pinky-900 flex items-center gap-2">
+                                    <i class="fas fa-file-invoice text-pinky-600"></i> Modul Ajar PAIBP Kelas XI
+                                </h2>
+                                <p class="text-xs text-slate-500">Perencanaan Pembelajaran Kurikulum Merdeka (Fase F - SMK)</p>
+                            </div>
+                            <div class="flex gap-2">
+                                <select id="modul-bab-select" onchange="changeModulBab()" class="text-xs p-2 bg-pink-50 border border-pink-200 rounded-lg font-semibold text-pinky-900">
+                                    <option value="1">Bab 1: Berpikir Kritis & Ali Imran 190-191</option>
+                                    <option value="2">Bab 2: Semangat IPTEK & Ar-Rahman 33</option>
+                                    <option value="3">Bab 3: Cabang-Cabang Iman (Syu'abul Iman)</option>
+                                    <option value="4">Bab 4: Menghindari Akhlak Madzmumah</option>
+                                    <option value="5">Bab 5: Khutbah, Tabligh, dan Dakwah</option>
+                                    <option value="6">Bab 6: Peran Tokoh Ulama di Nusantara</option>
+                                    <option value="7">Bab 7: Toleransi & QS Yunus 40-41</option>
+                                    <option value="8">Bab 8: Memelihara Kehidupan & QS Al-Maidah 32</option>
+                                    <option value="9">Bab 9: Cabang Iman (Iffah, Ikhlas, Malu, Zuhud)</option>
+                                    <option value="10">Bab 10: Adab Bermedia Sosial</option>
+                                    <option value="11">Bab 11: Fikih Munakahat / Pernikahan</option>
+                                    <option value="12">Bab 12: Pembaruan & Peradaban Islam Modern</option>
+                                </select>
+                                <button onclick="window.print()" class="bg-pinky-600 hover:bg-pinky-700 text-white text-xs px-4 py-2 rounded-lg font-bold shadow-sm flex items-center gap-1">
+                                    <i class="fas fa-print"></i> Cetak Modul
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="printable-modul" class="space-y-6 text-slate-800 text-xs leading-relaxed">
+                            <div class="border-b-2 border-pinky-800 pb-3 text-center space-y-1">
+                                <h1 class="text-base font-bold uppercase tracking-wider text-pinky-950">MODUL AJAR KURIKULUM MERDEKA</h1>
+                                <p class="text-xs font-semibold text-slate-700">PAIBP (PENDIDIKAN AGAMA ISLAM DAN BUDI PEKERTI) • KELAS XI (FASE F)</p>
+                                <p class="text-[11px] text-slate-500">SMK NEGERI 1 RANCAH • TAHUN AJARAN 2026/2027</p>
+                            </div>
+
+                            <div class="space-y-3">
+                                <h3 class="font-bold text-sm bg-pink-100 text-pinky-900 px-3 py-1.5 rounded-md flex items-center gap-2 border border-pink-200">
+                                    <i class="fas fa-info-circle"></i> I. INFORMASI UMUM
+                                </h3>
+                                
+                                <table class="w-full border-collapse border border-slate-200">
+                                    <tbody>
+                                        <tr class="border-b"><td class="p-2 font-bold w-1/3 bg-slate-50">Nama Penyusun</td><td class="p-2">Asri Nur Hikmayanti, S.Pd., S.Pd.I., M.Pd</td></tr>
+                                        <tr class="border-b"><td class="p-2 font-bold bg-slate-50">Satuan Pendidikan</td><td class="p-2">SMK Negeri 1 Rancah</td></tr>
+                                        <tr class="border-b"><td class="p-2 font-bold bg-slate-50">Mata Pelajaran</td><td class="p-2">Pendidikan Agama Islam dan Budi Pekerti (PAIBP)</td></tr>
+                                        <tr class="border-b"><td class="p-2 font-bold bg-slate-50">Fase / Kelas / Semester</td><td class="p-2" id="modul-info-fase">Fase F / Kelas XI / Semester 1</td></tr>
+                                        <tr class="border-b"><td class="p-2 font-bold bg-slate-50">Elemen CP</td><td class="p-2" id="modul-info-elemen">Al-Qur'an dan Hadis</td></tr>
+                                        <tr class="border-b"><td class="p-2 font-bold bg-slate-50">Judul Modul / Topik</td><td class="p-2 font-bold text-pinky-800" id="modul-info-judul">Bab 1: Membiasakan Berpikir Kritis & Menganalisis Ciptaan Allah SWT</td></tr>
+                                        <tr class="border-b"><td class="p-2 font-bold bg-slate-50">Alokasi Waktu</td><td class="p-2">3 Jam Pelajaran (3 x 45 Menit) x 3 Pertemuan</td></tr>
+                                        <tr class="border-b"><td class="p-2 font-bold bg-slate-50">Profil Pelajar Pancasila</td><td class="p-2">Beriman, Bertaqwa kepada Tuhan YME, Berakhlak Mulia, Bernalar Kritis, Gotong Royong</td></tr>
+                                        <tr class="border-b"><td class="p-2 font-bold bg-slate-50">Profil Pelajar Rahmatan Lil 'Alamin (PPRA)</td><td class="p-2">Tawasuth (Mengarungi Jalan Tengah), Tasamuh (Toleransi), Qudwah (Keteladanan)</td></tr>
+                                        <tr class="border-b"><td class="p-2 font-bold bg-slate-50">Sarana & Prasarana</td><td class="p-2">Multimedia Interaktif PAIBP Pink Edition, LCD Projector, Al-Qur'an Terjemah, Laptop</td></tr>
+                                        <tr><td class="p-2 font-bold bg-slate-50">Model Pembelajaran</td><td class="p-2">Problem Based Learning (PBL) & Blended Learning Interaktif</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="space-y-3 pt-2">
+                                <h3 class="font-bold text-sm bg-pink-100 text-pinky-900 px-3 py-1.5 rounded-md flex items-center gap-2 border border-pink-200">
+                                    <i class="fas fa-bullseye"></i> II. KOMPONEN INTI
+                                </h3>
+
+                                <div class="p-3 bg-slate-50 rounded-lg border space-y-2">
+                                    <h4 class="font-bold text-slate-800">A. Capaian Pembelajaran (CP) Elemen:</h4>
+                                    <p id="modul-cp-text" class="text-slate-700">Peserta didik mampu menganalisis Al-Qur'an dan Hadis tentang berpikir kritis, ilmu pengetahuan dan teknologi, toleransi, memelihara kehidupan manusia, serta mampu membaca Tajwid dan menghafalkan ayat terkait secara tartil.</p>
+                                </div>
+
+                                <div class="p-3 bg-slate-50 rounded-lg border space-y-2">
+                                    <h4 class="font-bold text-slate-800">B. Tujuan Pembelajaran (TP):</h4>
+                                    <ul id="modul-tp-list" class="list-disc pl-5 space-y-1 text-slate-700">
+                                        <li>Membaca QS Ali Imran [3]: 190-191 sesuai kaidah tajwid dan makhrajul huruf.</li>
+                                        <li>Menganalisis hukum bacaan tajwid dan kandungan makna QS Ali Imran [3]: 190-191.</li>
+                                        <li>Menjelaskan konsep Ulil Albab dan pentingnya membiasakan berpikir kritis (*critical thinking*).</li>
+                                        <li>Menerapkan perilaku berpikir kritis dan tadabbur alam dalam kehidupan sehari-hari.</li>
+                                    </ul>
+                                </div>
+
+                                <div class="p-3 bg-slate-50 rounded-lg border space-y-2">
+                                    <h4 class="font-bold text-slate-800">C. Pemahaman Bermakna & Pertanyaan Pemantik:</h4>
+                                    <p><strong>Pemahaman Bermakna:</strong> Alam semesta diciptakan Allah SWT penuh keteraturan sebagai sarana belajar agar manusia terus mengasah akal dan iman secara seimbang.</p>
+                                    <p><strong>Pertanyaan Pemantik:</strong> "Mengapa Allah menyuruh kita mengamati fenomena pergantian siang dan malam? Apa bedanya orang yang sekadar melihat dengan orang yang berpikir kritis?"</p>
+                                </div>
+
+                                <div class="p-3 bg-slate-50 rounded-lg border space-y-3">
+                                    <h4 class="font-bold text-slate-800">D. Kegiatan Pembelajaran (Sintaks Problem Based Learning):</h4>
+                                    
+                                    <div class="space-y-2">
+                                        <div class="font-bold text-pinky-800 border-b pb-1">1. Pendahuluan (15 Menit)</div>
+                                        <p>• Guru membuka pembelajaran dengan salam, doa bersama, dan pembacaan tadarus Al-Qur'an.<br>
+                                        • Apersepsi dan menyampaikan Tujuan Pembelajaran serta motivasi belajar.</p>
+                                    </div>
+
+                                    <div class="space-y-2">
+                                        <div class="font-bold text-pinky-800 border-b pb-1">2. Kegiatan Inti (105 Menit)</div>
+                                        <p><strong>Orientasi Masalah:</strong> Siswa mencermati fenomena kebesaran ciptaan Allah melalui modul interaktif.<br>
+                                        <strong>Pengorganisasian:</strong> Siswa dibagi dalam kelompok diskusi untuk membedah tajwid dan terjemahan.<br>
+                                        <strong>Penyelidikan:</strong> Siswa menganalisis konsep <em>Ulil Albab</em> dan studi kasus penerapan berpikir kritis.<br>
+                                        <strong>Pengembangan Karya:</strong> Menyusun infografis ringkas dan presentasi kelompok.<br>
+                                        <strong>Evaluasi:</strong> Konfirmasi dari guru dan pengerjaan Kuis Interaktif pada aplikasi.</p>
+                                    </div>
+
+                                    <div class="space-y-2">
+                                        <div class="font-bold text-pinky-800 border-b pb-1">3. Penutup (15 Menit)</div>
+                                        <p>• Siswa mengisi Jurnal Refleksi Diri pada aplikasi.<br>
+                                        • Guru memberikan umpan balik, penguatan karakter, dan doa penutup.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="pt-6 grid grid-cols-2 text-center text-xs">
+                                <div>
+                                    <p>Mengetahui,<br>Kepala SMK Negeri 1 Rancah</p>
+                                    <div class="h-16"></div>
+                                    <p class="font-bold underline">H. Dedi Junaedi, S.Pd., M.Pd</p>
+                                    <p class="text-[10px] text-slate-500">NIP. 19680312 199203 1 008</p>
+                                </div>
+                                <div>
+                                    <p>Rancah, Juli 2026<br>Guru Mata Pelajaran PAIBP</p>
+                                    <div class="h-16"></div>
+                                    <p class="font-bold underline">Asri Nur Hikmayanti, S.Pd., S.Pd.I., M.Pd</p>
+                                    <p class="text-[10px] text-slate-500">NIP. 19850415 201001 2 021</p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div id="tab-nilai" class="tab-content">
+                    <div class="bg-white rounded-2xl shadow-sm border border-pink-100 p-6 space-y-6" id="printable-area">
+                        
+                        <div class="border-b border-pink-100 pb-4 flex justify-between items-start">
+                            <div>
+                                <h2 class="text-xl font-bold text-pinky-900">REKAPITULASI DAFTAR NILAI PAIBP</h2>
+                                <p class="text-xs text-slate-600">SMK Negeri 1 Rancah • Tahun Ajaran 2026/2027</p>
+                            </div>
+                            <div class="text-right text-xs text-slate-500">
+                                <div>Pengampu: <strong>Asri Nur Hikmayanti, S.Pd., S.Pd.I., M.Pd</strong></div>
+                                <div>Mata Pelajaran: PAIBP Kelas XI</div>
+                            </div>
+                        </div>
+
+                        <div class="bg-pink-50/50 p-4 rounded-xl border border-pink-200 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                            <div>
+                                <span class="text-slate-400 block text-[10px]">NAMA SISWA:</span>
+                                <strong id="card-student-name" class="text-slate-800 text-sm">Belum Diisi</strong>
+                            </div>
+                            <div>
+                                <span class="text-slate-400 block text-[10px]">NIS / NISN:</span>
+                                <strong id="card-student-nis" class="text-slate-800 text-sm">-</strong>
+                            </div>
+                            <div>
+                                <span class="text-slate-400 block text-[10px]">KELAS / JURUSAN:</span>
+                                <strong id="card-student-class" class="text-slate-800 text-sm">XI SMK</strong>
+                            </div>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-xs border-collapse border border-pink-200 text-left">
+                                <thead class="bg-pinky-800 text-white">
+                                    <tr>
+                                        <th class="p-2.5 border border-pinky-900">No</th>
+                                        <th class="p-2.5 border border-pinky-900">Komponen Penilaian</th>
+                                        <th class="p-2.5 border border-pinky-900 text-center">Status / Skor</th>
+                                        <th class="p-2.5 border border-pinky-900 text-center">Keterangan</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="p-2.5 border">1</td>
+                                        <td class="p-2.5 border font-semibold">Progres Pembacaan Materi (12 Bab)</td>
+                                        <td id="grade-progress-val" class="p-2.5 border text-center font-bold text-pinky-700">0%</td>
+                                        <td id="grade-progress-status" class="p-2.5 border text-center text-slate-500">Belum Selesai</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-2.5 border">2</td>
+                                        <td class="p-2.5 border font-semibold">Nilai Kuis Evaluasi Semester 1</td>
+                                        <td id="grade-score-s1" class="p-2.5 border text-center font-bold">-</td>
+                                        <td id="status-s1" class="p-2.5 border text-center text-slate-500">Belum Mengerjakan</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-2.5 border">3</td>
+                                        <td class="p-2.5 border font-semibold">Nilai Kuis Evaluasi Semester 2</td>
+                                        <td id="grade-score-s2" class="p-2.5 border text-center font-bold">-</td>
+                                        <td id="status-s2" class="p-2.5 border text-center text-slate-500">Belum Mengerjakan</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-2.5 border">4</td>
+                                        <td class="p-2.5 border font-semibold">Kelengkapan Jurnal Refleksi Siswa</td>
+                                        <td id="grade-reflection-count" class="p-2.5 border text-center font-bold text-rose-700">0 / 12</td>
+                                        <td id="status-reflection" class="p-2.5 border text-center text-slate-500">Perlu Dilengkapi</td>
+                                    </tr>
+                                    <tr class="bg-pink-50/80 font-bold">
+                                        <td colspan="2" class="p-2.5 border text-right">RATA-RATA NILAI AKHIR:</td>
+                                        <td id="final-average-score" class="p-2.5 border text-center text-base text-pinky-800">0</td>
+                                        <td id="final-predicate" class="p-2.5 border text-center text-xs text-pinky-700">-</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="flex justify-between items-center pt-4 no-print border-t border-pink-100">
+                            <button onclick="showStudentModal()" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-lg font-semibold">
+                                <i class="fas fa-edit mr-1"></i> Edit Data Siswa
+                            </button>
+                            <button onclick="window.print()" class="text-xs bg-pinky-600 hover:bg-pinky-700 text-white px-5 py-2.5 rounded-xl font-bold shadow-sm">
+                                <i class="fas fa-print mr-1"></i> Cetak / Download Transkrip Nilai
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div id="tab-guru" class="tab-content">
+                    <div class="bg-white rounded-2xl shadow-sm border border-pink-100 p-6 md:p-8 space-y-6">
+                        
+                        <div class="flex flex-col md:flex-row items-center gap-6 pb-6 border-b border-pink-100">
+                            <div class="w-28 h-28 rounded-full bg-gradient-to-tr from-pinky-600 via-pinky-500 to-rose-400 p-1 flex-shrink-0 shadow-md">
+                                <div class="w-full h-full rounded-full bg-white flex items-center justify-center text-pinky-700 text-4xl font-bold">
+                                    <i class="fas fa-user-graduate"></i>
+                                </div>
+                            </div>
+                            <div class="text-center md:text-left space-y-1">
+                                <span class="bg-pinky-100 text-pinky-800 text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Guru Pengampu PAIBP</span>
+                                <h2 class="text-xl md:text-2xl font-bold text-slate-800">Asri Nur Hikmayanti, S.Pd., S.Pd.I., M.Pd</h2>
+                                <p class="text-xs text-slate-600">Pendidikan Agama Islam dan Budi Pekerti • Kelas XI</p>
+                                <p class="text-xs font-semibold text-pinky-700"><i class="fas fa-building-columns mr-1"></i> SMK Negeri 1 Rancah</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                            <div class="p-4 bg-pink-50/50 border border-pink-100 rounded-xl space-y-2">
+                                <h3 class="font-bold text-pinky-900 flex items-center gap-2"><i class="fas fa-id-card text-pinky-600"></i> Informasi Akademik</h3>
+                                <ul class="space-y-1 text-slate-600">
+                                    <li><strong>Satuan Pendidikan:</strong> SMK Negeri 1 Rancah</li>
+                                    <li><strong>Mata Pelajaran:</strong> Pendidikan Agama Islam & Budi Pekerti</li>
+                                    <li><strong>Sasaran Kelas:</strong> Kelas XI (Fase F - Kurikulum Merdeka)</li>
+                                </ul>
+                            </div>
+
+                            <div class="p-4 bg-pink-50/50 border border-pink-100 rounded-xl space-y-2">
+                                <h3 class="font-bold text-pinky-900 flex items-center gap-2"><i class="fas fa-heart text-pinky-600"></i> Visi Pembelajaran Digital</h3>
+                                <p class="text-slate-600 leading-relaxed">
+                                    Mewujudkan pembelajaran PAIBP yang inovatif, ramah, bermakna, berpusat pada murid, serta mengintegrasikan teknologi digital berkarakter Rahmatan Lil 'Alamin.
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <div id="student-modal" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-xl border border-pink-100">
+            <div class="flex justify-between items-center border-b border-pink-100 pb-3">
+                <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+                    <i class="fas fa-user-edit text-pinky-600"></i> Identitas Siswa
+                </h3>
+                <button onclick="hideStudentModal()" class="text-slate-400 hover:text-slate-600 text-xs"><i class="fas fa-times"></i></button>
+            </div>
+
+            <div class="space-y-3 text-xs">
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Nama Lengkap Siswa:</label>
+                    <input type="text" id="input-student-name" placeholder="Masukkan nama lengkap..." class="w-full p-2.5 border border-pink-200 rounded-lg focus:outline-none focus:border-pinky-500">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">NIS / NISN:</label>
+                    <input type="text" id="input-student-nis" placeholder="Nomor Induk Siswa..." class="w-full p-2.5 border border-pink-200 rounded-lg focus:outline-none focus:border-pinky-500">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Kelas / Jurusan:</label>
+                    <input type="text" id="input-student-class" placeholder="Contoh: XI TKR 1 / XI RPL 2" class="w-full p-2.5 border border-pink-200 rounded-lg focus:outline-none focus:border-pinky-500">
+                </div>
+            </div>
+
+            <div class="flex justify-end gap-2 pt-2 border-t border-pink-100">
+                <button onclick="hideStudentModal()" class="px-3 py-2 text-xs font-semibold text-slate-600 bg-slate-100 rounded-lg">Batal</button>
+                <button onclick="saveStudentData()" class="px-4 py-2 text-xs font-bold text-white bg-pinky-600 hover:bg-pinky-700 rounded-lg">Simpan Data</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const allChaptersData = {
+            m1: {
+                sem: 1, bab: 1,
+                title: "Berpikir Kritis dalam Islam",
+                quranTitle: "QS Ali Imran [3]: 190-191",
+                arabic: "إِنَّ فِي خَلْقِ السَّمَاوَاتِ وَالْأَرْضِ وَاخْتِلَافِ اللَّيْلِ وَالنَّهَارِ لَآيَاتٍ لِأُولِي الْأَلْبَابِ ﴿١٩٠﴾ الَّذِينَ يَذْكُرُونَ اللَّهَ قِيَامًا وَقُعُودًا وَعَلَىٰ جُنُوبِهِمْ وَيَتَفَكَّرُونَ فِي خَلْقِ السَّمَاوَاتِ وَالْأَرْضِ رَبَّنَا مَا خَلَقْتَ هَٰذَا بَاطِلًا سُبْحَانَكَ فَقِنَا عَذَابَ النَّارِ ﴿١٩١﴾",
+                translation: "Sesungguhnya dalam penciptaan langit dan bumi, dan pergantian malam dan siang terdapat tanda-tanda kebesaran Allah bagi orang-orang yang berakal (Ulil Albab)...",
+                materiText: "Islam sangat mendorong umatnya untuk berpikir kritis (*critical thinking*). Melalui penciptaan alam semesta yang teratur dan pergantian waktu, Allah memerintahkan manusia untuk menggunakan akalnya secara optimal dalam menganalisis fenomena sains dan kehidupan.",
+                resume: [
+                    "Ulil Albab adalah sebutan bagi orang berakal yang menyeimbangkan antara Zikir (mengingat Allah) dan Pikir (menganalisis fenomena alam).",
+                    "Semua ciptaan Allah memiliki manfaat dan tidak ada yang diciptakan secara sia-sia (bathil).",
+                    "Berpikir kritis dalam Islam bertujuan memperkuat keimanan, bukan sekadar keraguan intelektual."
+                ],
+                infographic: [
+                    { icon: "fa-brain", title: "Zikir & Pikir", desc: "Menyatu dalam hati dan akal saat mengamati ciptaan Allah" },
+                    { icon: "fa-sun", title: "Sunnatullah", desc: "Keteraturan hukum alam sebagai sarana tadabbur" },
+                    { icon: "fa-shield-halal", title: "Iman Kokoh", desc: "Berpikir kritis menghasilkan keyakinan yang mantap" }
+                ]
+            },
+            m2: {
+                sem: 1, bab: 2,
+                title: "Semangat Menguasai IPTEK",
+                quranTitle: "QS Ar-Rahman [55]: 33",
+                arabic: "يَا مَعْشَرَ الْجِنِّ وَالْإِنسِ إِنِ اسْتَطَعْتُمْ أَن تَنفُذُوا مِنْ أَقْطَارِ السَّمَاوَاتِ وَالْأَرْضِ فَانفُذُوا ۚ لَا تَنفُذُونَ إِلَّا بِسُلْطَانٍ",
+                translation: "Wahai golongan jin dan manusia! Jika kamu sanggup menembus (melintasi) penjuru langit dan bumi, maka tembuslah. Kamu tidak akan sanggup menembusnya kecuali dengan kekuatan (ilmu pengetahuan)...",
+                materiText: "Menguasai ilmu pengetahuan dan teknologi (IPTEK) adalah sebuah keniscayaan bagi umat Islam di era modern. Kata 'Sulthan' dalam ayat ini ditegaskan para mufassir sebagai kekuatan ilmu dan teknologi.",
+                resume: [
+                    "Manusia dan jin memiliki keterbatasan fisik, namun dapat melampauinya dengan Sulthan (ilmu & teknologi).",
+                    "Menuntut ilmu adalah kewajiban fardhu yang menjadi jalan menuju kemudahan syurga.",
+                    "Integrasi IPTEK dan IMTAK (Iman & Taqwa) menciptakan peradaban bernilai kemanusiaan."
+                ],
+                infographic: [
+                    { icon: "fa-atom", title: "Sulthan", desc: "Kekuatan ilmu pengetahuan untuk menembus ruang & waktu" },
+                    { icon: "fa-laptop-code", title: "Inovasi Digital", desc: "Memanfaatkan teknologi untuk kemaslahatan umat" },
+                    { icon: "fa-rocket", title: "Peradaban Unggul", desc: "Umat muslim menjadi pelopor kemajuan ilmu" }
+                ]
+            },
+            m3: {
+                sem: 1, bab: 3,
+                title: "Cabang Iman (Syu'abul Iman) 1",
+                quranTitle: "Hadis tentang Syu'abul Iman",
+                arabic: "الإِيمَانُ بِضْعٌ وَسَبْعُونَ أَوْ بِضْعٌ وَسِتُّونَ شُعْبَةً فَأَفْضَلُهَا قَوْلُ لاَ إِلَهَ إِلاَّ اللَّهُ وَأَدْنَاهَا إِمَاطَةُ الأَذَى عَنِ الطَّرِيقِ",
+                translation: "Iman memiliki 70 atau 60 lebih cabang. Yang paling utama adalah ucapan Laa ilaaha illallah, dan yang paling rendah adalah menyingkirkan gangguan dari jalan...",
+                materiText: "Iman bukan sekadar keyakinan dalam hati, melainkan memiliki 77 cabang amalan nyata yang mencakup lisan, hati, dan perbuatan fisik harian.",
+                resume: [
+                    "Memenuhi Janji: Membangun kepercayaan (*trust*) dan integritas pribadi di tempat kerja/sekolah.",
+                    "Mensyukuri Nikmat: Menggunakan kelebihan fisik, harta, dan ilmu untuk ketaatan.",
+                    "Memelihara Lisan & Menutup Aib: Menjaga kehormatan sesama kawan dan menghindari ghibah/hoaks."
+                ],
+                infographic: [
+                    { icon: "fa-handshake", title: "Patuhi Janji", desc: "Integritas pribadi muslim sejati" },
+                    { icon: "fa-heart", title: "Syukur Nikmat", desc: "Menggunakan fasilitas hidup untuk kebaikan" },
+                    { icon: "fa-comment-slash", title: "Jaga Lisan", desc: "Menutup aib kawan & lisan santun" }
+                ]
+            },
+            m4: {
+                sem: 1, bab: 4,
+                title: "Menghindari Akhlak Madzmumah",
+                quranTitle: "QS Al-Maidah [5]: 90",
+                arabic: "يَا أَيُّهَا الَّذِينَ آمَنُوا إِنَّمَا الْخَمْرُ وَالْمَيْسِرُ وَالْأَنصَابُ وَالْأَزْلَامُ رِجْسٌ مِّنْ عَمَلِ الشَّيْطَانِ فَاجْتَنِبُوهُ لَعَلَّكُمْ تُفْلِحُونَ",
+                translation: "Wahai orang-orang yang beriman! Sesungguhnya meminum khamr, berjudi, berkorban untuk berhala, dan mengundi nasib adalah perbuatan keji dari perbuatan setan...",
+                materiText: "Akhlak Madzmumah seperti tawuran pelajar, khamr, dan narkoba merusak kesehatan fisik, saraf akal, dan masa depan penerus bangsa.",
+                resume: [
+                    "Perkelahian antar pelajar melanggar prinsip ukhuwah Islamiyah dan persatuan.",
+                    "Khamr dan Narkoba adalah sumber segala kejahatan (*Ummul Khabaith*) yang menghancurkan akal sehat.",
+                    "Pencegahan dilakukan melalui regulasi diri, lingkungan positif, dan ketakwaan."
+                ],
+                infographic: [
+                    { icon: "fa-ban", title: "Stop Tawuran", desc: "Kedepankan toleransi & komunikasi damai" },
+                    { icon: "fa-wine-bottle", title: "Bebas Narkoba", desc: "Jaga akal sehat & kesehatan tubuh" },
+                    { icon: "fa-users-slash", title: "Pilih Lingkungan", desc: "Hindari pergaulan destruktif" }
+                ]
+            },
+            m5: {
+                sem: 1, bab: 5,
+                title: "Khutbah, Tabligh, dan Dakwah",
+                quranTitle: "QS An-Nahl [16]: 125",
+                arabic: "ادْعُ إِلَىٰ سَبِيلِ رَبِّكَ بِالْحِكْمَةِ وَالْمَوْعِظَةِ الْحَسَنَةِ ۖ وَجَادِلْهُم بِالَّتِي هِيَ أَحْسَنُ",
+                translation: "Serulah (manusia) kepada jalan Tuhanmu dengan hikmah dan pengajaran yang baik, dan berdebatlah dengan mereka dengan cara yang baik...",
+                materiText: "Khutbah, Tabligh, dan Dakwah adalah tiga sarana menyampaikan risalah Islam yang memadukan keilmuan, rukun syariat, dan etika komunikasi.",
+                resume: [
+                    "Khutbah terikat rukun dan syarat sah (seperti pada shalat Jumat).",
+                    "Tabligh berfokus pada penyampaian ajaran Islam secara lebih luas.",
+                    "Dakwah dapat dilakukan oleh setiap muslim sesuai kapasitas melalui lisan, tulisan, dan keteladanan akhlak (*bil hal*)."
+                ],
+                infographic: [
+                    { icon: "fa-bullhorn", title: "Hikmah", desc: "Penyampaian dengan bijak & berilmu" },
+                    { icon: "fa-book-open-reader", title: "Mau'izhah", desc: "Nasihat yang menyejukkan hati" },
+                    { icon: "fa-comments", title: "Mujadalah", desc: "Diskusi santun & saling menghargai" }
+                ]
+            },
+            m6: {
+                sem: 1, bab: 6,
+                title: "Peran Tokoh Ulama di Indonesia",
+                quranTitle: "QS At-Taubah [9]: 122",
+                arabic: "فَلَوْلَا نَفَرَ مِن كُلِّ فِرْقَةٍ مِّنْهُمْ طَائِفَةٌ لِّيَتَفَقَّهُوا فِي الدِّينِ وَلِيُنذِرُوا قَوْمَهُمْ إِذَا رَجَعُوا إِلَيْهِمْ لَعَلَّهُمْ يَحْذَرُونَ",
+                translation: "Mengapa tidak pergi dari tiap-tiap golongan di antara mereka beberapa orang untuk memperdalam pengetahuan mereka tentang agama...",
+                materiText: "Penyebaran Islam di Nusantara sukses besar karena pendekatan ulama yang santun, akomodatif terhadap budaya lokal, dan berakhlak mulia.",
+                resume: [
+                    "Wali Songo menggunakan media seni (seperti wayang & tembang) untuk berdakwah secara damai.",
+                    "Syekh Nawawi Al-Bantani menjadi Mahaguru ulama Nusantara di Makkah.",
+                    "KH Ahmad Dahlan dan KH Hasyim Asy'ari memadukan dakwah agama dengan pembahrusn pendidikan & perjuangan Kemerdekaan RI."
+                ],
+                infographic: [
+                    { icon: "fa-hands-praying", title: "Dakwah Santun", desc: "Penyebaran Islam tanpa kekerasan" },
+                    { icon: "fa-masks-theater", title: "Kearifan Lokal", desc: "Memanfaatkan seni budaya Nusantara" },
+                    { icon: "fa-monument", title: "Nasionalisme", desc: "Ulama sebagai pelopor NKRI" }
+                ]
+            },
+            m7: {
+                sem: 2, bab: 7,
+                title: "QS Yunus 40-41 & Toleransi",
+                quranTitle: "QS Yunus [10]: 40-41",
+                arabic: "وَمِنْهُم مَّن يُؤْمِنُ بِهِ وَمِنْهُم مَّلا يُؤْمِنُ بِهِ ۚ وَرَبُّكَ أَعْلَمُ بِالْمُفْسِدِينَ ﴿٤٠﴾ وَإِن كَذَّبُوكَ فَقُل لِّي عَمَلِي وَلَكُمْ عَمَلُكُمْ",
+                translation: "Di antara mereka ada orang-orang yang beriman kepadanya, dan di antaranya ada (pula) orang-orang yang tidak beriman kepadanya. Tuhanmu lebih mengetahui tentang orang-orang yang membuat kerusakan...",
+                materiText: "Toleransi (*Tasamuh*) adalah sikap menghargai perbedaan keyakinan dan pandangan hidup dalam bingkai muamalah kemanusiaan.",
+                resume: [
+                    "Allah mengakui adanya perbedaan keyakinan di antara manusia.",
+                    "Prinsip 'Bagiku amalku, bagimu amalmu' menegaskan toleransi muamalah sosial tanpa mengorbankan akidah.",
+                    "Menghindari sikap memaksakan kehendak dan menghakimi sesama."
+                ],
+                infographic: [
+                    { icon: "fa-scale-balanced", title: "Tasamuh", desc: "Menghargai keberagaman dalam hidup bersama" },
+                    { icon: "fa-hand-holding-heart", title: "Muamalah", desc: "Berbuat baik kepada sesama manusia" },
+                    { icon: "fa-shield", title: "Jaga Akidah", desc: "Toleransi sosial tanpa kompromi aqidah" }
+                ]
+            },
+            m8: {
+                sem: 2, bab: 8,
+                title: "Memelihara Kehidupan Manusia",
+                quranTitle: "QS Al-Maidah [5]: 32",
+                arabic: "مَن قَتَلَ نَفْسًا بِغَيْرِ نَفْسٍ أَوْ فَسَادٍ فِي الْأَرْضِ فَكَأَنَّمَا قَتَلَ النَّاسَ جَمِيعًا وَمَنْ أَحْيَاهَا فَكَأَنَّمَا أَحْيَا النَّاسَ جَمِيعًا",
+                translation: "Barangsiapa membunuh seseorang bukan karena orang itu membunuh orang lain, atau bukan karena membuat kerusakan di bumi, maka seakan-akan dia telah membunuh manusia seluruhnya...",
+                materiText: "Islam menempatkan perlindungan terhadap nyawa (*Hifzhun Nafs*) sebagai prioritas tertinggi dalam syariat kemanusiaan.",
+                resume: [
+                    "Membunuh 1 nyawa tanpa hak nilainya setara dengan membunuh seluruh umat manusia.",
+                    "Menyelamatkan 1 nyawa nilainya setara dengan menyelamatkan seluruh kehidupan.",
+                    "Mencakup larangan kekerasan, pembunuhan, maupun menyakiti fisik & mental sesama."
+                ],
+                infographic: [
+                    { icon: "fa-heart-pulse", title: "Hifzhun Nafs", desc: "Menjaga dan menghormati hak hidup setiap manusia" },
+                    { icon: "fa-hands-holding-child", title: "Kemanusiaan", desc: "Menolong sesama yang membutuhkan" },
+                    { icon: "fa-crosshairs", title: "Anti Kekerasan", desc: "Menolak segala bentuk penganiayaan" }
+                ]
+            },
+            m9: {
+                sem: 2, bab: 9,
+                title: "Cabang Iman (Syu'abul Iman) 2",
+                quranTitle: "Hadis tentang Malu & Ikhlas",
+                arabic: "الْحَيَاءُ لاَ يَأْتِي إِلاَّ بِخَيْرٍ",
+                translation: "Rasa malu itu tidak mendatangkan sesuatu melainkan kebaikan semata...",
+                materiText: "Membentuk kepribadian muslim unggul melalui penguatan sifat Iffah (menjaga kehormatan), Ikhlas, Malu (*Haya'*), dan Zuhud.",
+                resume: [
+                    "Iffah: Menjaga kesucian diri dari perbuatan yang merendahkan martabat.",
+                    "Ikhlas: Murni beramal hanya mengharap ridha Allah SWT.",
+                    "Malu (Haya'): Benteng pertahanan utama yang mencegah seseorang berbuat maksiat.",
+                    "Zuhud: Mengendalikan hati agar tidak terikat berlebihan pada dunia."
+                ],
+                infographic: [
+                    { icon: "fa-user-shield", title: "Iffah", desc: "Menjaga martabat & kehormatan diri" },
+                    { icon: "fa-gem", title: "Ikhlas & Malu", desc: "Beramal murni & malu berbuat dosa" },
+                    { icon: "fa-feather", title: "Zuhud", desc: "Hati tenang & tak terikat dunia" }
+                ]
+            },
+            m10: {
+                sem: 2, bab: 10,
+                title: "Adab Menggunakan Media Sosial",
+                quranTitle: "QS Al-Hujurat [49]: 6",
+                arabic: "يَا أَيُّهَا الَّذِينَ آمَنُوا إِن جَاءَكُمْ فَاسِقٌ بِنَبَإٍ فَتَبَيَّنُوا أَن تُصِيبُوا قَوْمًا بِجَهَالَةٍ فَتُصْبِحُوا عَلَىٰ مَا فَعَلْتُمْ نَادِمِينَ",
+                translation: "Wahai orang-orang yang beriman! Jika seseorang yang fasik datang kepadamu membawa suatu berita, maka telitilah kebenarannya (Tabayyun)...",
+                materiText: "Dunia digital dan media sosial memerlukan etika (*adab*) Islami agar menjadi sarana kebaikan, bukan penyebar hoaks dan permusuhan.",
+                resume: [
+                    "Tabayyun: Mengklarifikasi dan memverifikasi setiap informasi sebelum dibagikan.",
+                    "Menghindari Cyberbullying, Ujaran Kebencian (*Hate Speech*), dan Ghibah Online.",
+                    "Menjadikan media sosial sebagai media dakwah kreatif dan penyebar keberkahan."
+                ],
+                infographic: [
+                    { icon: "fa-magnifying-glass", title: "Tabayyun", desc: "Cek kebenaran berita sebelum re-share" },
+                    { icon: "fa-keyboard", title: "Jaga Jemari", desc: "Ketik komentar santun & bermanfaat" },
+                    { icon: "fa-share-nodes", title: "Konten Positif", desc: "Sebarkan inspirasi & kebaikan" }
+                ]
+            },
+            m11: {
+                sem: 2, bab: 11,
+                title: "Pernikahan dalam Islam",
+                quranTitle: "QS Ar-Rum [30]: 21",
+                arabic: "وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً",
+                translation: "Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang...",
+                materiText: "Pernikahan (Munakahat) adalah ikatan suci (*Misaqan Ghalizhan*) untuk membentuk keluarga yang Sakinah, Mawaddah, wa Rahmah.",
+                resume: [
+                    "Rukun Nikah: Calon suami, calon istri, wali nikah, 2 saksi adil, dan Ijab Kabul.",
+                    "Tujuan Nikah: Membentengi moralitas, melanjutkan keturunan sah, dan memperoleh ketenangan jiwa.",
+                    "Mencegah pernikahan dini dengan kesiapan fisik, mental, keilmuan, dan ekonomi."
+                ],
+                infographic: [
+                    { icon: "fa-ring", title: "Misaqan Ghalizhan", desc: "Perjanjian suci yang kokoh di hadapan Allah" },
+                    { icon: "fa-house-chimney-heart", title: "Sakinah", desc: "Keluarga tenteram, penuh kasih & sayang" },
+                    { icon: "fa-clipboard-check", title: "Rukun Sah", desc: "Memenuhi seluruh syarat syariat nikah" }
+                ]
+            },
+            m12: {
+                sem: 2, bab: 12,
+                title: "Peradaban Islam Masa Modern",
+                quranTitle: "QS Ar-Ra'd [13]: 11",
+                arabic: "إِنَّ اللَّهَ لَا يُغَيِّرُ مَا بِقَوْمٍ حَتَّىٰ يُغَيِّرُوا مَا بِأَنفُسِهِمْ",
+                translation: "Sesungguhnya Allah tidak akan mengubah keadaan suatu kaum sebelum mereka mengubah keadaan diri mereka sendiri...",
+                materiText: "Gerakan Pembaruan Islam (*Tajdid*) lahir untuk merespons kemunduran dan membangkitkan kembali kejayaan sains serta pemikiran umat Islam.",
+                resume: [
+                    "Pembaruan difokuskan pada pembersihan akidah dari khurafat dan penguasaan sains modern.",
+                    "Tokoh Pembaru: Jamaluddin Al-Afghani (Pan Islamisme), Muhammad Abduh (Pendidikan), Muhammad Iqbal (Filsafat Khudi).",
+                    "Pelajaran bagi generasi muda: Berpikiran terbuka terhadap sains tanpa kehilangan identitas keislaman."
+                ],
+                infographic: [
+                    { icon: "fa-lightbulb", title: "Tajdid", desc: "Gerakan pembaharuan pemikiran umat Islam" },
+                    { icon: "fa-graduation-cap", title: "Sains & Agama", desc: "Menyatukan ilmu umum dan keagamaan" },
+                    { icon: "fa-earth-asia", title: "Penerus Bangsa", desc: "Mengembalikan kejayaan peradaban Islam" }
+                ]
+            }
+        };
+
+        function renderAllChapters() {
+            const container = document.getElementById('materi-dynamic-container');
+            container.innerHTML = '';
+
+            Object.keys(allChaptersData).forEach((key, index) => {
+                const item = allChaptersData[key];
+                const isActive = index === 0 ? 'active' : '';
+                const semBadgeClass = item.sem === 1 ? 'bg-pinky-100 text-pinky-900 border border-pinky-200' : 'bg-rose-100 text-rose-900 border border-rose-200';
+
+                const html = `
+                    <div id="${key}" class="materi-content ${isActive} space-y-6">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-pink-100 gap-2">
+                            <div>
+                                <span class="${semBadgeClass} text-xs font-bold px-3 py-1 rounded-full">Semester ${item.sem} • Bab ${item.bab}</span>
+                                <h2 class="text-2xl font-bold text-slate-800 mt-2">${item.title}</h2>
+                            </div>
+                            <button onclick="markCompleted('${key}')" class="self-start sm:self-center text-slate-600 hover:text-pinky-700 text-xs flex items-center gap-1.5 font-semibold transition-colors bg-pink-50 hover:bg-pink-100 px-3.5 py-2 rounded-xl border border-pink-200 shadow-2xs">
+                                <i class="far fa-check-circle text-sm text-pinky-600"></i> <span id="btn-text-${key}">Tandai Selesai</span>
+                            </button>
+                        </div>
+
+                        <div class="bg-gradient-to-r from-pink-50/80 to-rose-50/50 border-l-4 border-pinky-600 p-4.5 rounded-r-2xl space-y-3 shadow-2xs">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-pinky-900 uppercase tracking-wider"><i class="fas fa-quran mr-1.5 text-pinky-600"></i> ${item.quranTitle}</span>
+                            </div>
+                            <div class="arabic-text text-slate-800 leading-relaxed">${item.arabic}</div>
+                            <p class="text-xs text-slate-600 italic leading-normal border-t border-pink-200/60 pt-2.5">
+                                "${item.translation}"
+                            </p>
+                        </div>
+
+                        <div class="space-y-2">
+                            <h3 class="text-sm font-bold text-slate-800 flex items-center gap-2">
+                                <i class="fas fa-book-open text-pinky-600"></i> Penguraian Materi
+                            </h3>
+                            <p class="text-xs text-slate-700 leading-relaxed bg-white p-3.5 rounded-xl border border-pink-100/80">
+                                ${item.materiText}
+                            </p>
+                        </div>
+
+                        <div class="bg-pink-50/60 p-4 rounded-xl border border-pink-200/80 space-y-2">
+                            <h3 class="text-xs font-bold text-pinky-950 uppercase tracking-wider flex items-center gap-2">
+                                <i class="fas fa-list-check text-pinky-600"></i> Resume Ringkas Bab ${item.bab}
+                            </h3>
+                            <ul class="list-disc pl-5 space-y-1.5 text-xs text-slate-700">
+                                ${item.resume.map(r => `<li>${r}</li>`).join('')}
+                            </ul>
+                        </div>
+
+                        <div class="space-y-2">
+                            <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2">
+                                <i class="fas fa-chart-pie text-pinky-600"></i> Infografis Visual & Peta Konsep
+                            </h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                ${item.infographic.map(info => `
+                                    <div class="p-3.5 bg-gradient-to-b from-white to-pink-50/30 border border-pink-200/70 rounded-xl space-y-1.5 shadow-2xs hover:border-pinky-400 transition-all">
+                                        <div class="w-8 h-8 rounded-lg bg-pinky-100 text-pinky-700 flex items-center justify-center font-bold text-sm">
+                                            <i class="fas ${info.icon}"></i>
+                                        </div>
+                                        <h4 class="font-bold text-xs text-pinky-900">${info.title}</h4>
+                                        <p class="text-[11px] text-slate-600 leading-normal">${info.desc}</p>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += html;
+            });
+        }
+
+        let completedModules = new Set(JSON.parse(localStorage.getItem('paibp_progress') || '[]'));
+        let studentData = JSON.parse(localStorage.getItem('paibp_student') || '{"name":"","nis":"","class":""}');
+        let quizScores = JSON.parse(localStorage.getItem('paibp_scores') || '{"s1":null,"s2":null}');
+        let activeQuizKey = null;
+
+        function switchTab(tabId) {
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(t => t.classList.remove('active'));
+
+            const targetTab = document.getElementById(`tab-${tabId}`);
+            if (targetTab) targetTab.classList.add('active');
+
+            const sidebar = document.getElementById('sidebar');
+            if (tabId !== 'materi') {
+                sidebar.classList.add('hidden');
+            } else {
+                sidebar.classList.remove('hidden');
+            }
+
+            if (tabId === 'nilai') updateGradeTable();
+            if (tabId === 'refleksi') loadReflectionData();
+            if (tabId === 'modul') changeModulBab();
+        }
+
+        function loadMateri(materiId, element) {
+            document.getElementById('welcome-banner').style.display = 'none';
+
+            const contents = document.querySelectorAll('.materi-content');
+            contents.forEach(c => c.classList.remove('active'));
+
+            const target = document.getElementById(materiId);
+            if (target) target.classList.add('active');
+
+            const items = document.querySelectorAll('.sidebar-item');
+            items.forEach(i => i.classList.remove('active'));
+            if (element) element.classList.add('active');
+
+            if (window.innerWidth < 768) {
+                document.getElementById('sidebar').classList.add('-translate-x-full');
+            }
+            document.getElementById('main-view').scrollTop = 0;
+        }
+
+        function markCompleted(id) {
+            if (completedModules.has(id)) {
+                completedModules.delete(id);
+            } else {
+                completedModules.add(id);
+            }
+            localStorage.setItem('paibp_progress', JSON.stringify(Array.from(completedModules)));
+            updateProgressUI();
+        }
+
+        function updateProgressUI() {
+            const total = 12;
+            const count = completedModules.size;
+            const percent = Math.round((count / total) * 100);
+            
+            document.getElementById('progress-percent').innerText = `${percent}% Selesai`;
+
+            for (let i = 1; i <= 12; i++) {
+                const btnText = document.getElementById(`btn-text-m${i}`);
+                if (btnText) {
+                    if (completedModules.has(`m${i}`)) {
+                        btnText.innerText = "Selesai (Batal)";
+                    } else {
+                        btnText.innerText = "Tandai Selesai";
+                    }
+                }
+            }
+        }
+
+        function showStudentModal() {
+            document.getElementById('input-student-name').value = studentData.name || '';
+            document.getElementById('input-student-nis').value = studentData.nis || '';
+            document.getElementById('input-student-class').value = studentData.class || '';
+            document.getElementById('student-modal').classList.remove('hidden');
+        }
+
+        function hideStudentModal() {
+            document.getElementById('student-modal').classList.add('hidden');
+        }
+
+        function saveStudentData() {
+            studentData.name = document.getElementById('input-student-name').value.trim();
+            studentData.nis = document.getElementById('input-student-nis').value.trim();
+            studentData.class = document.getElementById('input-student-class').value.trim();
+
+            localStorage.setItem('paibp_student', JSON.stringify(studentData));
+            updateStudentUI();
+            hideStudentModal();
+        }
+
+        function updateStudentUI() {
+            const name = studentData.name || 'Belum Diisi';
+            document.getElementById('header-student-name').innerText = name;
+            document.getElementById('card-student-name').innerText = name;
+            document.getElementById('card-student-nis').innerText = studentData.nis || '-';
+            document.getElementById('card-student-class').innerText = studentData.class || 'XI SMK';
+        }
+
+        function changeModulBab() {
+            const babId = document.getElementById('modul-bab-select').value;
+            const item = allChaptersData[`m${babId}`];
+
+            if (item) {
+                document.getElementById('modul-info-fase').innerText = `Fase F / Kelas XI / Semester ${item.sem}`;
+                document.getElementById('modul-info-elemen').innerText = item.sem === 1 ? "Al-Qur'an dan Hadis / Akidah" : "Al-Qur'an dan Hadis / Akhlak";
+                document.getElementById('modul-info-judul').innerText = `Bab ${item.bab}: ${item.title}`;
+                document.getElementById('modul-cp-text').innerText = `Peserta didik mampu menganalisis materi Bab ${item.bab} (${item.title}), memahami dalil ${item.quranTitle}, serta menerapkan akhlak mulia dalam kehidupan sehari-hari.`;
+
+                const tpList = document.getElementById('modul-tp-list');
+                tpList.innerHTML = '';
+                item.resume.forEach(r => {
+                    tpList.innerHTML += `<li>Memahami dan menerapkan: ${r}</li>`;
+                });
+            }
+        }
+
+        const quizBank = {
+            s1: {
+                title: "Evaluasi Semester 1 (Bab 1 - 6)",
+                questions: [
+                    { q: "Menurut QS Ali Imran [3]: 190-191, kriteria utama Ulil Albab adalah orang yang...", options: ["Memikirkan duniawi", "Mengingat Allah (dzikir) dan memikirkan ciptaan-Nya (pikir)", "Suka berdebat", "Hanya belajar tanpa ibadah"], answer: 1 },
+                    { q: "Kata 'Sulthan' dalam QS Ar-Rahman [55]: 33 diartikan mufassir sebagai...", options: ["Kekuasaan politik", "Harta melimpah", "Kekuatan ilmu pengetahuan dan teknologi (IPTEK)", "Kedudukan tinggi"], answer: 2 },
+                    { q: "Menjaga lisan dari perkataan buruk dan fitnah termasuk ke dalam cabang iman...", options: ["Syu'abul Iman kelompok Lisan", "Syu'abul Iman kelompok Hati", "Rukun Islam ketiga", "Fardhu Kifayah"], answer: 0 },
+                    { q: "Perilaku mengonsumsi khamr dan narkoba dilarang keras karena...", options: ["Harganya mahal", "Menghilangkan fungsi akal sehat dan pemicu kerusakan", "Membuat kelelahan", "Hanya aturan biasa"], answer: 1 },
+                    { q: "Perbedaan mendasar antara Khutbah dan Dakwah terletak pada...", options: ["Khutbah terikat rukun & syarat syariat shalat, dakwah bersifat fleksibel", "Dakwah hanya di lapangan", "Khutbah tidak butuh rukun", "Dakwah tanpa ilmu"], answer: 0 }
+                ]
+            },
+            s2: {
+                title: "Evaluasi Semester 2 (Bab 7 - 12)",
+                questions: [
+                    { q: "Sesuai kandungan QS Yunus [10]: 40-41, sikap toleransi yang benar adalah...", options: ["Ikut ibadah agama lain", "Menghargai keberagaman dalam muamalah sosial tanpa kompromi akidah", "Apatis", "Membiarkan kejahatan"], answer: 1 },
+                    { q: "Prinsip menjaga kehidupan dalam QS Al-Maidah [5]: 32 menegaskan membunuh 1 jiwa tanpa hak sama artinya dengan...", options: ["Membunuh seluruh manusia", "Dosa kecil", "Kesalahan biasa", "Merusak fisik"], answer: 0 },
+                    { q: "Sikap 'Iffah' dalam cabang iman berarti...", options: ["Menjaga kehormatan dan kesucian diri", "Suka dipuji", "Menumpuk harta", "Sombong"], answer: 0 },
+                    { q: "Penerapan etika Tabayyun saat menerima berita di media sosial bertujuan...", options: ["Membuat berita viral", "Memverifikasi kebenaran berita agar tidak menyebar hoaks", "Cari followers", "Menghapus akun"], answer: 1 },
+                    { q: "Gagasan pembaruan Islam (Tajdid) pada masa modern bertujuan...", options: ["Mengubah Al-Qur'an", "Memajukan pendidikan sains & membebaskan dari kemunduran", "Menghapus tradisi", "Menolak ilmu pengetahuan"], answer: 1 }
+                ]
+            }
+        };
+
+        function startQuiz(key) {
+            activeQuizKey = key;
+            const quiz = quizBank[key];
+            document.getElementById('quiz-title-active').innerText = quiz.title;
+            const container = document.getElementById('quiz-questions-list');
+            container.innerHTML = '';
+
+            quiz.questions.forEach((qObj, index) => {
+                const qHtml = `
+                    <div class="p-3.5 bg-pink-50/40 border border-pink-100 rounded-xl space-y-2">
+                        <p class="font-bold text-xs text-slate-800">${index + 1}. ${qObj.q}</p>
+                        <div class="space-y-1">
+                            ${qObj.options.map((opt, oIdx) => `
+                                <label class="flex items-center gap-2 text-xs p-2 rounded-lg border border-pink-200 bg-white hover:bg-pink-100/50 cursor-pointer">
+                                    <input type="radio" name="q_${index}" value="${oIdx}" class="accent-pinky-600">
+                                    <span>${opt}</span>
+                                </label>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += qHtml;
+            });
+
+            document.getElementById('active-quiz-box').classList.remove('hidden');
+            document.getElementById('quiz-result-summary').innerText = '';
+        }
+
+        function closeQuiz() {
+            document.getElementById('active-quiz-box').classList.add('hidden');
+        }
+
+        function submitQuiz() {
+            if (!activeQuizKey) return;
+            const quiz = quizBank[activeQuizKey];
+            let score = 0;
+
+            quiz.questions.forEach((qObj, index) => {
+                const selected = document.querySelector(`input[name="q_${index}"]:checked`);
+                if (selected && parseInt(selected.value) === qObj.answer) {
+                    score += 20;
+                }
+            });
+
+            quizScores[activeQuizKey] = score;
+            localStorage.setItem('paibp_scores', JSON.stringify(quizScores));
+
+            document.getElementById('quiz-result-summary').innerText = `Skor Anda: ${score} / 100`;
+            const badge = document.getElementById(`badge-score-${activeQuizKey}`);
+            if (badge) badge.innerText = `Nilai: ${score}`;
+        }
+
+        function loadReflectionData() {
+            const ch = document.getElementById('reflection-chapter-select').value;
+            const savedText = localStorage.getItem(`reflection_m${ch}`) || '';
+            document.getElementById('tab-reflection-text').value = savedText;
+            document.getElementById('reflection-toast').classList.add('hidden');
+        }
+
+        function saveTabReflection() {
+            const ch = document.getElementById('reflection-chapter-select').value;
+            const text = document.getElementById('tab-reflection-text').value.trim();
+            localStorage.setItem(`reflection_m${ch}`, text);
+
+            const toast = document.getElementById('reflection-toast');
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 2500);
+        }
+
+        function updateGradeTable() {
+            const progress = Math.round((completedModules.size / 12) * 100);
+            document.getElementById('grade-progress-val').innerText = `${progress}%`;
+            document.getElementById('grade-progress-status').innerText = progress === 100 ? "Lengkap" : "Dalam Proses";
+
+            const s1Score = quizScores.s1 !== null ? quizScores.s1 : '-';
+            const s2Score = quizScores.s2 !== null ? quizScores.s2 : '-';
+            document.getElementById('grade-score-s1').innerText = s1Score;
+            document.getElementById('grade-score-s2').innerText = s2Score;
+            
+            document.getElementById('status-s1').innerText = quizScores.s1 !== null ? (quizScores.s1 >= 75 ? "Tuntas (KKM 75)" : "Perlu Remedial") : "Belum Mengerjakan";
+            document.getElementById('status-s2').innerText = quizScores.s2 !== null ? (quizScores.s2 >= 75 ? "Tuntas (KKM 75)" : "Perlu Remedial") : "Belum Mengerjakan";
+
+            let refCount = 0;
+            for (let i = 1; i <= 12; i++) {
+                if (localStorage.getItem(`reflection_m${i}`)) refCount++;
+            }
+            document.getElementById('grade-reflection-count').innerText = `${refCount} / 12`;
+            document.getElementById('status-reflection').innerText = refCount >= 6 ? "Baik" : "Perlu Dilengkapi";
+
+            let validScores = [];
+            if (quizScores.s1 !== null) validScores.push(quizScores.s1);
+            if (quizScores.s2 !== null) validScores.push(quizScores.s2);
+
+            let avg = validScores.length > 0 ? Math.round(validScores.reduce((a,b)=>a+b,0)/validScores.length) : 0;
+            document.getElementById('final-average-score').innerText = avg;
+
+            let predicate = "Kurang";
+            if (avg >= 88) predicate = "Sangat Baik (A)";
+            else if (avg >= 78) predicate = "Baik (B)";
+            else if (avg >= 75) predicate = "Cukup (C)";
+            document.getElementById('final-predicate').innerText = avg > 0 ? predicate : "-";
+        }
+
+        function filterMenu() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const items = document.querySelectorAll('.sidebar-item');
+            items.forEach(item => {
+                const text = item.innerText.toLowerCase();
+                if (text.includes(query)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('-translate-x-full');
+        });
+
+        window.onload = function() {
+            renderAllChapters();
+            updateProgressUI();
+            updateStudentUI();
+            if (quizScores.s1 !== null) document.getElementById('badge-score-s1').innerText = `Nilai: ${quizScores.s1}`;
+            if (quizScores.s2 !== null) document.getElementById('badge-score-s2').innerText = `Nilai: ${quizScores.s2}`;
+        }
+    </script>
+</body>
+</html>
